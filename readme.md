@@ -1,12 +1,21 @@
 # PROJECT GAME "SHARK ATTACK"
 
-- **Nama:** Lu'bah Al 'Aini
-- **NRP:** 5024241082
+* Nama : Lu'bah Al 'Aini
+* NRP : 5024241082
 
 ---
 
-# 1. Penjelasan Game
+# Daftar Isi
+* [1. Overview](#1-overview)
+* [2. Struktur Program](#2-struktur-program)
+* [3. Fungsi yang Digunakan](#3-fungsi-yang-digunakan)
+* [4. Hand Gesture Recognition](#4-hand-gesture-recognition)
+* [5. Cara Bermain](#5-cara-bermain)
+* [6. Cara Menjalankan Program](#6-cara-menjalankan-program)
+* [7. Assets](#7-assets)
+* [8. Dokumentasi Video Demo](#8-dokumentasi-video-demo)
 
+# 1. Overview
 ## 1.1 Deskripsi Umum
 
 Shark Attack merupakan permainan interaktif berbasis pengolahan citra digital (*Advanced Image Processing*) yang dikembangkan menggunakan bahasa pemrograman Python dengan pustaka OpenCV dan NumPy. Sistem memanfaatkan webcam sebagai perangkat masukan utama untuk mendeteksi gerakan dan gestur tangan pengguna secara real-time.
@@ -21,7 +30,7 @@ Setiap ikan kecil yang berhasil dimakan akan memberikan tambahan skor sebesar 10
 
 ---
 
-# 2. Struktur Kode
+# 2. Struktur Program
 
 ```text
 Project Folder
@@ -45,7 +54,7 @@ Project Folder
 
 ---
 
-# 3. Fungsi yang Dipakai
+# 3. Fungsi yang Digunakan
 
 ## 3.1 `manual_erode()`
 
@@ -73,7 +82,7 @@ Fungsi `play_bgm_loop()` digunakan untuk mengelola pemutaran musik latar permain
 
 ---
 
-# 4. Hand Gesture
+# 4. Hand Gesture Recognition
 
 Sistem pengenalan gestur pada permainan Shark Attack dilakukan melalui pendekatan pengolahan citra klasik yang terdiri atas segmentasi warna kulit, pembersihan noise menggunakan operasi morfologi, serta analisis karakteristik geometris objek tangan yang terdeteksi. Pendekatan ini dipilih karena lebih ringan secara komputasi dan sesuai dengan tujuan pembelajaran pada mata kuliah Pengolahan Citra dan Video.
 
@@ -154,7 +163,7 @@ q
 
 ---
 
-# 7. Asset Gallery
+# 7. Assets
 
 ## Aset Gambar
 
