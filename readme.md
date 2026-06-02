@@ -20,13 +20,13 @@
 
 Shark Attack merupakan permainan interaktif berbasis pengolahan citra digital (*Advanced Image Processing*) yang dikembangkan menggunakan bahasa pemrograman Python dengan pustaka OpenCV dan NumPy. Sistem memanfaatkan webcam sebagai perangkat masukan utama untuk mendeteksi gerakan dan gestur tangan pengguna secara real-time.
 
-Berbeda dengan permainan konvensional yang menggunakan keyboard atau mouse, kontrol pada game ini dilakukan melalui proses segmentasi warna kulit pada citra kamera. Posisi tangan yang terdeteksi digunakan untuk mengendalikan karakter ikan utama yang berada pada lingkungan bawah laut.
+Berbeda dengan permainan konvensional yang menggunakan keyboard atau mouse, kontrol pada game ini dilakukan melalui proses segmentasi warna kulit pada citra kamera. Posisi tangan yang terdeteksi digunakan untuk mengendalikan karakter pedang (sword) yang bergerak di dalam arena permainan bawah laut. Pedang tersebut digunakan untuk menyerang ikan kecil dan menghindari hiu yang menjadi musuh utama.
 
 ## 1.2 Tujuan Permainan
 
 Tujuan permainan adalah memperoleh skor setinggi mungkin dengan memakan ikan-ikan kecil yang bergerak di dalam area permainan. Pada saat yang sama pemain harus menghindari serangan hiu yang berpatroli di bagian bawah layar.
 
-Setiap ikan kecil yang berhasil dimakan akan memberikan tambahan skor sebesar 10 poin dan memperbesar ukuran karakter pemain secara bertahap. Permainan berakhir apabila seluruh nyawa pemain habis akibat bertabrakan dengan hiu.
+Setiap ikan kecil yang berhasil terkena serangan pedang akan memberikan tambahan skor sebesar 10 poin. Pemain harus terus mengumpulkan skor sambil menghindari tabrakan dengan hiu yang berpatroli pada area permainan. Permainan berakhir apabila seluruh nyawa pemain habis akibat bertabrakan dengan hiu.
 
 ---
 
@@ -36,7 +36,7 @@ Setiap ikan kecil yang berhasil dimakan akan memberikan tambahan skor sebesar 10
 Project Folder
 │
 ├── assets
-│   ├── big_fish.png
+│   ├── sword.png
 │   ├── game_over.png
 │   ├── score_place.png
 │   ├── sea.jpg
@@ -66,7 +66,7 @@ Fungsi `manual_dilate()` digunakan untuk melakukan operasi morfologi dilasi seca
 
 ## 3.3 `overlay_sprite()`
 
-Fungsi `overlay_sprite()` digunakan untuk menempelkan objek grafis berformat PNG ke atas gambar latar belakang permainan dengan memanfaatkan informasi transparansi (*alpha channel*). Fungsi ini melakukan proses *alpha blending* sehingga sprite dapat menyatu dengan latar tanpa menampilkan area latar belakang gambar PNG yang tidak diinginkan. Pada permainan ini fungsi digunakan untuk menampilkan karakter ikan pemain, ikan kecil, hiu, panel skor, serta berbagai elemen visual lainnya. Masukan fungsi berupa gambar latar belakang, gambar sprite, dan koordinat pusat objek, sedangkan keluarannya berupa frame hasil komposit yang siap ditampilkan ke layar.
+Fungsi `overlay_sprite()` digunakan untuk menempelkan objek grafis berformat PNG ke atas gambar latar belakang permainan dengan memanfaatkan informasi transparansi (*alpha channel*). Fungsi ini melakukan proses *alpha blending* sehingga sprite dapat menyatu dengan latar tanpa menampilkan area latar belakang gambar PNG yang tidak diinginkan. Pada permainan iniFungsi digunakan untuk menampilkan karakter pedang pemain, ikan kecil, hiu, panel skor, serta berbagai elemen visual lainnya. Masukan fungsi berupa gambar latar belakang, gambar sprite, dan koordinat pusat objek, sedangkan keluarannya berupa frame hasil komposit yang siap ditampilkan ke layar.
 
 ## 3.4 `draw_ui()`
 
@@ -119,21 +119,33 @@ Gesture kepalan tangan digunakan untuk mengaktifkan mekanisme memakan ikan (*eat
 x_spread < 35
 ```
 
-Saat mode ini aktif, karakter ikan dapat memakan ikan kecil yang berada di dalam radius *collision* tertentu. Setiap ikan yang berhasil dimakan akan menambah skor sebesar 10 poin, memperbesar ukuran karakter secara bertahap, serta memunculkan efek visual berupa tulisan "CHOMP!" pada layar permainan.
+Saat mode ini aktif, karakter pedang dapat menyerang ikan kecil yang berada di dalam radius tabrakan tertentu. Setiap ikan yang berhasil terkena serangan akan menambah skor sebesar 10 poin dan memunculkan efek visual berupa tulisan "SLASH!" pada layar permainan sebagai indikator keberhasilan serangan.
 
+## 4.4 Gesture Angka Satu (Escape Dash)
 
+Gesture angka satu digunakan sebagai mekanisme menghindar (escape dash). Deteksi dilakukan dengan menganalisis bentuk vertikal objek tangan menggunakan perbandingan jumlah piksel pada bagian atas dan bawah area tangan yang terdeteksi.
+
+Sistem terlebih dahulu membagi bounding box tangan menjadi dua bagian, yaitu area atas dan area bawah. Apabila tinggi objek tangan jauh lebih besar dibandingkan lebarnya dan rasio jumlah piksel pada bagian bawah terhadap bagian atas melebihi nilai ambang tertentu, sistem mengklasifikasikan gestur tersebut sebagai angka satu.
+```python
+pixel_ratio > 2.8
+```
+Ketika gesture berhasil dikenali, karakter akan melakukan gerakan cepat ke arah atas sebagai mekanisme menghindari hiu. Selain itu, sistem menampilkan efek visual berupa tulisan:
+```python
+ESCAPE DASH!!
+```
 ---
 
 # 5. Cara Bermain
 
 1. Jalankan program dan pastikan webcam aktif.
 2. Letakkan tangan pada area deteksi yang tersedia.
-3. Gunakan tangan terbuka untuk menggerakkan ikan.
+3. Gunakan tangan terbuka untuk menggerakkan pedang.
 4. Dekati ikan kecil yang muncul pada layar.
-5. Lakukan kepalan tangan untuk memakan ikan kecil.
-6. Hindari tabrakan dengan hiu.
-7. Gunakan gestur angka satu apabila ingin melakukan Escape Dash.
-8. Kumpulkan skor sebanyak mungkin sebelum seluruh nyawa habis.
+5. Lakukan kepalan tangan untuk menyerang ikan kecil.
+6. Peroleh 10 poin untuk setiap ikan yang berhasil diserang.
+7. Gunakan gestur angka satu untuk melakukan Escape Dash.
+8. Hindari tabrakan dengan hiu.
+9. Kumpulkan skor sebanyak mungkin sebelum seluruh nyawa habis.
 
 ---
 
@@ -189,15 +201,15 @@ Sea Background
 <tr>
 <td align="center">
 
-### Big Fish
+Sword
 
-<img src="assets/big_fish.png" width="180">
+<img src="assets/sword.png" width="120">
 
 </td>
 
 <td align="center">
 
-### Small Fish
+Small Fish
 
 <img src="assets/small_fish.png" width="180">
 
@@ -207,7 +219,7 @@ Sea Background
 <tr>
 <td align="center">
 
-### Shark
+Shark
 
 <img src="assets/shark.png" width="250">
 
@@ -215,7 +227,7 @@ Sea Background
 
 <td align="center">
 
-### Game Over
+Game Over
 
 <img src="assets/game_over.png" width="250">
 
