@@ -99,13 +99,14 @@ small_fish_base = cv2.resize(cv2.imread('assets/small_fish.png', cv2.IMREAD_UNCH
 shark_base_w, shark_base_h = 250, 170
 shark_img_base = cv2.resize(cv2.imread('assets/shark.png', cv2.IMREAD_UNCHANGED), (shark_base_w, shark_base_h))
 score_place_img = cv2.resize(cv2.imread('assets/score_place.png', cv2.IMREAD_UNCHANGED), (180, 65))
-player_master_img = cv2.imread('assets/big_fish.png', cv2.IMREAD_UNCHANGED)
+player_master_img = cv2.imread('assets/sword.png', cv2.IMREAD_UNCHANGED)
 
 score = 0
 lives = 3
 zone_x1, zone_y1, zone_x2, zone_y2 = 300, 40, 620, 440
 
-player_base_w, player_base_h = 130, 95
+# Slightly increased weapon dimensions while preserving vertical scaling format
+player_base_w, player_base_h = 85, 155
 SMOOTH_FACTOR = 0.20 
 SIZE_SMOOTH_FACTOR = 0.10 
 
@@ -220,7 +221,8 @@ while cap.isOpened() and lives > 0:
         if not gesture_angka_1:
             x_spread = np.std(x_indices) if len(x_indices) > 0 else 0
             if x_spread < 35: 
-                target_w, target_h = int(player_base_w * 1.22), int(player_base_h * 1.22)
+                # Size constraints verified; values remain static to prevent image skewing
+                target_w, target_h = player_base_w, player_base_h
                 is_eating = True 
 
         cv2.rectangle(hand_feed_display, (min_x, min_y), (max_x, max_y), (0, 255, 0), 2)
@@ -275,8 +277,6 @@ while cap.isOpened() and lives > 0:
         if dist_to_small < dynamic_hitbox: 
             if is_eating:
                 score += 10
-                player_base_w += 1
-                player_base_h += 1
                 
                 chomp_x, chomp_y = player_x - 40, player_y - 65
                 chomp_timer = 12 
@@ -289,7 +289,7 @@ while cap.isOpened() and lives > 0:
         screen = overlay_sprite(screen, sprite_small, fish['x'], fish['y'])
 
     if chomp_timer > 0:
-        draw_ui(screen, "CHOMP!", (chomp_x, chomp_y), 0.6, (0, 220, 255))
+        draw_ui(screen, "SLASH!", (chomp_x, chomp_y), 0.6, (0, 220, 255))
         chomp_timer -= 1 
 
     if escape_text_timer > 0:
@@ -355,7 +355,7 @@ while cap.isOpened() and lives > 0:
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-# Removed SND_PURGE line to allow uninterrupted loop transition
+# Clean up video capture resources and windows
 cap.release()
 cv2.destroyAllWindows()
 
