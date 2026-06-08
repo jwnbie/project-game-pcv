@@ -246,7 +246,4 @@ Game Over
 ---
 
 # 8. Dokumentasi Video Demo
-
-```
-Masukkan tautan video demonstrasi di sini
-```
+[Link Demonstrasi Game](https://drive.google.com/file/d/1soqmOT7tZlXu9BAZQ7JZCOjTR7qpKz-z/view?usp=sharing)
